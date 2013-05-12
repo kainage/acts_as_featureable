@@ -1,11 +1,12 @@
 class CreateFeatures < ActiveRecord::Migration
 	def change
 		create_table :features do |t|
+			t.references :featureable, :polymorphic => true
 			t.string :title
 			t.text :summary
-			t.references :featureable, :polymorphic => true
+			t.integer :position, :null => false
 		end
 		
-		add_index :features, [:commentable_type, :commentable_id]
+		add_index :features, [:featureable_type, :featureable_id]
 	end
 end
