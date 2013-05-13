@@ -1,5 +1,9 @@
 # Acts As Featureable
 
+[![Build Status](https://travis-ci.org/kainage/acts_as_featureable.png)](https://travis-ci.org/kainage/acts_as_featureable)
+
+Requires ruby *1.9.3* or later
+
 Add a polymorphic resource to your rails app for pulling content to a main/features page.
 
 ## Installation
