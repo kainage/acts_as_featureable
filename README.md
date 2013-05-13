@@ -6,7 +6,9 @@ Add a polymorphic resource to your rails app for pulling content to a main/featu
 
 Add this line to your application's Gemfile:
 
-    gem 'acts_as_featureable'
+```ruby
+gem 'acts_as_featureable'
+```
 
 And then execute:
 
@@ -16,15 +18,15 @@ Or install it yourself as:
 
     $ gem install acts_as_featureable
     
-Run the generator
+Run the generator:
 
-    rails g features
+    $ rails g features
 
 This will create the migration file and an initializer.
 
-Migrate the database
+Migrate the database:
 
-    rake db:migrate
+    $ rake db:migrate
 
 ## Configuration
 
@@ -32,28 +34,74 @@ Edit the initializer file to set default settings for feature size and auto titl
 
 ## Usage
 
-Add the line acts_as_featurable to the class you want to feature.
+### Featureable Model
 
-    class Topic
-        acts_as_featurable
-    end
+Add the appropriate line to the class you want to feature.
 
-Make sure the class you are making featureable has the methods 'title' and 'summary'
+```ruby
+class Topic
+	acts_as_featurable
+end
+```
 
-Add a feature to a model. The 'title' and 'summary' will be pulled from the model
-unless you specify otherwise and only if the corresponding reader methods exist.
+### Creating Features
 
-    featureable = Topic.create
-    featureable.features.create # will have title and summary of the Topic
+Add a feature to a model. The 'title' and 'summary' (or whichever methods you add in the initializer file) will be assigned.
 
-or
+```ruby
+featureable = Topic.create(title: 'Title', summary: 'Summary')
+featureable.features.create
+#<Feature title: "Title", summary: "Summary">
+```
 
-    featureable = Topic.create
-    featureable.features.create(title: 'My New Title', summary 'Short description here')
+You can also override them directly.
+
+```ruby
+featureable = Topic.create(title: 'Title', summary: 'Summary')
+featureable.features.create(title: 'My New Title', summary 'My New Summary')
+#<Feature title: "My New Title", summary: "My New Summary">
+```
+
+The positioning of the features can be specified
+
+```ruby
+featureable = Topic.create
+featureable.features.create(position: 3)
+#<Feature position: 3>
+```
+
+If it is not specified, it will automatically be assigned the next, lowest position
+
+```ruby
+featureable = Topic.create
+featureable.features.create
+#<Feature position: 1>
+
+featureable.features.create
+#<Feature position: 2>
+```
+
+If you try and assign a position which has already been taken, it will find the next, lowest available position.
+
+```ruby
+featureable = Topic.create
+featureable.features.create
+#<Feature position: 1>
+
+featureable.features.create(position: 1)
+#<Feature position: 2>
+
+featureable.features.create(position: 1)
+#<Feature position: 3>
+```
+
+### Feature scope
 
 Get all features by thier position
 
-    Feature.ordered
+```ruby
+Feature.ordered
+```
 
 Implementing the forms and views is up to you. An example form would be
 
