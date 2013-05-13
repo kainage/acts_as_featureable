@@ -30,13 +30,13 @@ Migrate the database:
 
 ## Configuration
 
-Edit the initializer file to set default settings for feature size and auto title & summary assigning.
+Edit the initializer file to set default settings for feature size and auto title & summary assigning:
 
 ## Usage
 
 ### Featureable Model
 
-Add the appropriate line to the class you want to feature.
+Add the appropriate line to the class you want to feature:
 
 ```ruby
 class Topic
@@ -46,7 +46,7 @@ end
 
 ### Creating Features
 
-Add a feature to a model. The 'title' and 'summary' (or whichever methods you add in the initializer file) will be assigned.
+Add a feature to a model. The _title_ and _summary_ (or whichever methods you add in the initializer file) will be assigned:
 
 ```ruby
 featureable = Topic.create(title: 'Title', summary: 'Summary')
@@ -54,7 +54,7 @@ featureable.features.create
 #<Feature title: "Title", summary: "Summary">
 ```
 
-You can also override them directly.
+You can also override them directly:
 
 ```ruby
 featureable = Topic.create(title: 'Title', summary: 'Summary')
@@ -62,7 +62,7 @@ featureable.features.create(title: 'My New Title', summary 'My New Summary')
 #<Feature title: "My New Title", summary: "My New Summary">
 ```
 
-The positioning of the features can be specified
+The _position_ of the features can be specified:
 
 ```ruby
 featureable = Topic.create
@@ -70,7 +70,7 @@ featureable.features.create(position: 3)
 #<Feature position: 3>
 ```
 
-If it is not specified, it will automatically be assigned the next, lowest position
+If it is not specified, it will automatically be assigned the next, lowest _position_:
 
 ```ruby
 featureable = Topic.create
@@ -81,7 +81,7 @@ featureable.features.create
 #<Feature position: 2>
 ```
 
-If you try and assign a position which has already been taken, it will find the next, lowest available position.
+If you try and assign a position which has already been taken, it will find the next, lowest available _position_:
 
 ```ruby
 featureable = Topic.create
@@ -97,13 +97,13 @@ featureable.features.create(position: 1)
 
 ### Feature scope
 
-Get all features by thier position
+Get all features ordered by thier _position_ ascending:
 
 ```ruby
 Feature.ordered
 ```
 
-Implementing the forms and views is up to you. An example form would be
+Implementing the forms and views is left up to the developer.
 
 ## Contributing
 
