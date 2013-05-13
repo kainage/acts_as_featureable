@@ -18,14 +18,14 @@ Or install it yourself as:
     
 Run the generator
 
-		rails g features
-		
+    rails g features
+
 This will create the migration file and an initializer.
-		
+
 Migrate the database
 
-		rake db:migrate
-		
+    rake db:migrate
+
 ## Configuration
 
 Edit the initializer file to set default settings for feature size and auto title & summary assigning.
@@ -34,29 +34,29 @@ Edit the initializer file to set default settings for feature size and auto titl
 
 Add the line acts_as_featurable to the class you want to feature.
 
-		class Topic
-			acts_as_featurable
-		end
+    class Topic
+        acts_as_featurable
+    end
 
 Make sure the class you are making featureable has the methods 'title' and 'summary'
 
 Add a feature to a model. The 'title' and 'summary' will be pulled from the model
 unless you specify otherwise and only if the corresponding reader methods exist.
 
-		featureable = Topic.create
-		featureable.features.create # will have title and summary of the Topic
+    featureable = Topic.create
+    featureable.features.create # will have title and summary of the Topic
 
 or
 
-		featureable = Topic.create
-		featureable.features.create(title: 'My New Title', summary 'Short description here')
-		
+    featureable = Topic.create
+    featureable.features.create(title: 'My New Title', summary 'Short description here')
+
 Get all features by thier position
 
-		Feature.ordered
-		
+    Feature.ordered
+
 Implementing the forms and views is up to you. An example form would be
-		
+
 ## Contributing
 
 1. Fork it
