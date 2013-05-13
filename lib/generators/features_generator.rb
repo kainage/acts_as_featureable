@@ -10,7 +10,7 @@ class FeaturesGenerator < Rails::Generators::Base
 	end
 	
 	def create_featureable_file
-		#copy_file "initializer.rb", "config/initializers/acts_as_featureable.rb"
+		copy_file "initializer.rb", "config/initializers/acts_as_featureable.rb"
 		migration_template "create_features.rb", "db/migrate/create_features.rb"
 	end
 end

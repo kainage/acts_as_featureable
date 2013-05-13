@@ -20,9 +20,15 @@ Run the generator
 
 		rails g features
 		
+This will create the migration file and an initializer.
+		
 Migrate the database
 
 		rake db:migrate
+		
+## Configuration
+
+Edit the initializer file to set default settings for feature size and auto title & summary assigning.
 
 ## Usage
 
@@ -48,7 +54,9 @@ or
 Get all features by thier position
 
 		Feature.ordered
-
+		
+Implementing the forms and views is up to you. An example form would be
+		
 ## Contributing
 
 1. Fork it

@@ -5,6 +5,7 @@ class CreateFeatures < ActiveRecord::Migration
 			t.string :title
 			t.text :summary
 			t.integer :position, :null => false
+			t.timestamps
 		end
 		
 		add_index :features, [:featureable_type, :featureable_id]
