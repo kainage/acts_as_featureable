@@ -4,6 +4,7 @@ ActiveRecord::Schema.define :version => 0 do
 		t.string :title
 		t.text :summary
 		t.integer :position, :null => false
+		t.string :category
 		t.timestamps
 	end
 	

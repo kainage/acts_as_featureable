@@ -11,6 +11,39 @@ describe Feature do
 	it { should belong_to :featureable }
 	it { should validate_numericality_of :position }
 	
+	## ENSURE CATEGORIES ##
+	it "should allow any categories by default" do
+		Feature.create!(category: 'anything').errors.count.should eql 0
+	end
+	
+	describe "with category limits" do
+		before :each do
+			ActsAsFeatureable.categories = [:default]
+		end
+		
+		it "should allow a category that is in the list" do
+			Feature.create(category: :default).errors.count.should eq 0
+		end
+		
+		it "should not allow a category that is not in the list" do
+			feature = Feature.create(category: :foo)
+			
+			feature.errors.count.should eq 1
+			feature.errors.messages.keys.should include(:category)
+		end
+		
+		## CREATE SCOPES ##
+		it "should create scopes for the default categories" do
+			Feature.default
+		end
+		
+		it "should return all the features of the scope for the deafult categories" do
+			Feature.create!(category: :default)
+			
+			Feature.default.size.should eq 1
+		end
+	end
+	
 	## LIMIT VALIDATION ##
 	it "should only allow the default number of features to be made" do
 		limit = ActsAsFeatureable.feature_limit

@@ -7,4 +7,9 @@ ActsAsFeatureable.setup do |config|
 	
 	# Set the order of auto summary assigning.
 	config.auto_summary_assign_list = [:summary, :caption, :tldr, :content, :text]
+	
+	# Limit the categories you wish to use.
+	# => [:main, :articles, :images]
+	# false allows unlimited categories.
+	config.categories = false
 end

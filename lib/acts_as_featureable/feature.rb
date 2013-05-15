@@ -3,11 +3,19 @@ class Feature < ActiveRecord::Base
 	
 	before_validation :assign_title, :assign_summary, :assign_position
 	
-	validate :feature_limit_not_reached
+	validate :feature_limit_not_reached, :ensure_categories
 	
 	validates_numericality_of :position
 		
 	private
+	
+	def ensure_categories
+		cats = ::ActsAsFeatureable::categories
+		# Allow all categories if set to false
+		if cats && !cats.include?(self.category)
+			errors.add(:category, " is not in the list [#{cats.join(',')}]")
+		end
+	end
 	
 	def feature_limit_not_reached
 		limit = ActsAsFeatureable.feature_limit
