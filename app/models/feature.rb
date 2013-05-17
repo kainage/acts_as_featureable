@@ -5,6 +5,8 @@ class Feature < ActiveRecord::Base
 	
 	validate :feature_limit_not_reached, :ensure_categories
 	
+	validates_presence_of :featureable_id, :featureable_type
+	
 	validates_numericality_of :position
 		
 	private
@@ -12,7 +14,7 @@ class Feature < ActiveRecord::Base
 	def ensure_categories
 		cats = ::ActsAsFeatureable::categories
 		# Allow all categories if set to false
-		if cats && !cats.include?(self.category)
+		if cats && self.category && !cats.include?(self.category.to_sym)
 			errors.add(:category, " is not in the list [#{cats.join(',')}]")
 		end
 	end
@@ -22,7 +24,7 @@ class Feature < ActiveRecord::Base
 		errors.add(:base, 
 			"The feature limit of #{limit} has been reached. \
 			Please delete or change an existing feature."
-		) if Feature.count >= limit
+		) if ActsAsFeatureable.categories ? Feature.where(category: self.category).count >= limit : Feature.count >= limit
 	end
 	
 	def assign_title
@@ -56,7 +58,11 @@ class Feature < ActiveRecord::Base
 	def assign_position
 		# If there is no position given, or the position given is already taken,
 		# assign the lowest open position. Otherwise assign it.
-		all_positions = Feature.select('features.position').map(&:position).sort
+		all_positions = if ActsAsFeatureable.categories 
+			Feature.select('features.position, features.category').where(category: self.category).map(&:position).sort
+		else
+			Feature.select('features.position').map(&:position).sort
+		end
 		
 		if !self.position || (self.position && all_positions.include?(self.position))
 			# Find lowest, non-taken position

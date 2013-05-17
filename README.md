@@ -48,6 +48,19 @@ class Topic
 end
 ```
 
+Add the routes to your _routes_ config file for the resource(s) you wish to make featureable
+
+```ruby
+resources :topics do
+	resources :features
+end
+```
+
+### CanCan integration
+
+If you are using CanCan for authorization, the _features controller_ will automatically add authorization
+to each action.
+
 ### Creating Features
 
 Add a feature to a model. The _title_ and _summary_ (or whichever methods you add in the initializer file) will be assigned:
@@ -55,7 +68,7 @@ Add a feature to a model. The _title_ and _summary_ (or whichever methods you ad
 ```ruby
 featureable = Topic.create(title: 'Title', summary: 'Summary')
 featureable.features.create
-#<Feature title: "Title", summary: "Summary">
+# => <Feature title: "Title", summary: "Summary">
 ```
 
 You can also override them directly:
@@ -63,7 +76,7 @@ You can also override them directly:
 ```ruby
 featureable = Topic.create(title: 'Title', summary: 'Summary')
 featureable.features.create(title: 'My New Title', summary 'My New Summary')
-#<Feature title: "My New Title", summary: "My New Summary">
+# => <Feature title: "My New Title", summary: "My New Summary">
 ```
 
 The _position_ of the features can be specified:
@@ -71,7 +84,7 @@ The _position_ of the features can be specified:
 ```ruby
 featureable = Topic.create
 featureable.features.create(position: 3)
-#<Feature position: 3>
+# => <Feature position: 3>
 ```
 
 If it is not specified, it will automatically be assigned the next, lowest _position_:
@@ -79,10 +92,10 @@ If it is not specified, it will automatically be assigned the next, lowest _posi
 ```ruby
 featureable = Topic.create
 featureable.features.create
-#<Feature position: 1>
+# => <Feature position: 1>
 
 featureable.features.create
-#<Feature position: 2>
+# => <Feature position: 2>
 ```
 
 If you try and assign a position which has already been taken, it will find the next, lowest available _position_:
@@ -90,14 +103,49 @@ If you try and assign a position which has already been taken, it will find the 
 ```ruby
 featureable = Topic.create
 featureable.features.create
-#<Feature position: 1>
+# => <Feature position: 1>
 
 featureable.features.create(position: 1)
-#<Feature position: 2>
+# => <Feature position: 2>
 
 featureable.features.create(position: 1)
-#<Feature position: 3>
+# => <Feature position: 3>
 ```
+
+### Categories
+
+You can specify categories when creating features:
+
+```ruby
+featureable = Topic.create
+featureable.features.create(category: :mains)
+# => <Feature category: "mains">
+```
+
+You can specify any category and as many as you like to pull to different parts of your site.
+
+```ruby
+featureable = Topic.create
+featureable.features.create(category: :mains)
+# => <Feature category: "mains">
+featureable.features.create(category: :hot_topics)
+# => <Feature category: "hot_topics">
+
+featureable.features.count
+# => 2
+
+featureable.features.where(category: :hot_topics).count
+# => 1
+```
+
+This is the default behaviour. If you specify categories in your ```acts_as_featureable.rb``` initilaizer file:
+
+```ruby
+config.categories = [:mains, :hot_topics]
+```
+
+then these are the only allowable categories for your application. You also get the side benefit of 
+having a scope created for each of these categories on the Feature class. See the next section for more details.
 
 ### Feature scope
 
@@ -107,7 +155,29 @@ Get all features ordered by thier _position_ ascending:
 Feature.ordered
 ```
 
-Implementing the forms and views is left up to the developer.
+If you have specified strict categories in your initializer (see previous section) then you can use those as scopes
+on the Feature class:
+
+```ruby
+Feature.hot_topics
+# => <Feature category: "hot_topics" ... >
+```
+
+## View Helpers
+
+Adds two helper methods to your views:
+
+```ruby
+<%= feature_form_for(featureable) %>
+```
+
+Which renders a basic form for creating features from a featureable object.
+
+```ruby
+<%= features_for(featureable) %>
+```
+
+Which simiply lists the features' position and category with a delete link
 
 ## Contributing
 

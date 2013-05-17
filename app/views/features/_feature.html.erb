@@ -1,0 +1,5 @@
+<div class="feature">
+	<%= content_tag :span, feature.position, :class => 'position' %>
+	<%= content_tag :span, feature.category, :class => 'category' %>
+	<%= link_to 'Remove', [feature.featureable, feature], :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+</div>
