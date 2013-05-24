@@ -1,3 +1,3 @@
 class Topic < ActiveRecord::Base
-	acts_as_featureable
+  acts_as_featureable
 end

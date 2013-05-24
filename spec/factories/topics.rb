@@ -1,6 +1,6 @@
 FactoryGirl.define do
-	factory :topic do
-		title "Title"
-		summary "Summary"
-	end
+  factory :topic do
+    title "Title"
+    summary "Summary"
+  end
 end

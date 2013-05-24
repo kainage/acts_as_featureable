@@ -1,19 +1,19 @@
 <% cats = ActsAsFeatureable.categories %>
 
 <%= form_for [featureable, Feature.new] do |f| %>
-	<div class="field">
-		<%= f.label :position %>
-		<%= f.select :position, (1..ActsAsFeatureable.feature_limit) %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :category%>
-		<% if cats %>
-			<%= f.select :category, cats %>
-		<% else %>
-			<%= f.text_field :category %>
-		<% end %>
-	</div>
-	
-	<%= f.submit %>
+  <div class="field">
+    <%= f.label :position %>
+    <%= f.select :position, (1..ActsAsFeatureable.feature_limit) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category%>
+    <% if cats %>
+    <%= f.select :category, cats %>
+    <% else %>
+    <%= f.text_field :category %>
+    <% end %>
+  </div>
+
+  <%= f.submit %>
 <% end %>
