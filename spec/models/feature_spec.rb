@@ -49,10 +49,8 @@ describe Feature do
 
   ## LIMIT VALIDATION ##
   it "should only allow the default number of features to be made" do
-    limit = ActsAsFeatureable.feature_limit
-
     # Create the limit of features
-    limit.times do
+    ActsAsFeatureable.feature_limit.times do
       @topic.features.create!
     end
 
@@ -64,10 +62,8 @@ describe Feature do
     before :each do
       ActsAsFeatureable.categories = [:one, :two]
 
-      limit = ActsAsFeatureable.feature_limit
-
     	# Create the limit of features
-      limit.times do
+      ActsAsFeatureable.feature_limit.times do
         @topic.features.create!(category: :one)
       end
     end

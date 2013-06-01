@@ -77,7 +77,8 @@ module ActsAsFeatureable
       end
 
       def feature_model.method_missing(mehtod_name, *args, &block)
-        if ::ActsAsFeatureable.categories.include?(mehtod_name)
+        if ActsAsFeatureable.categories &&
+            ActsAsFeatureable.categories.include?(mehtod_name)
           self.scope mehtod_name, -> { self.where(category: mehtod_name) }
           self.send(mehtod_name)
         else
@@ -86,7 +87,9 @@ module ActsAsFeatureable
       end
 
       def respond_to_missing?(method_name, include_private = false)
-        ::ActsAsFeatureable.categories.include?(method_name) || super
+        (ActsAsFeatureable.categories &&
+            ActsAsFeatureable.categories.include?(method_name)) ||
+          super
       end
     end
   end
