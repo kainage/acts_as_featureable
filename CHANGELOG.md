@@ -1,6 +1,10 @@
+## v0.0.3
+
+* Bug fix. Always use respond_to_missing? when using method_missing?
+
 ## v0.0.2
 
-* enhancements
+* Enhancements
 	* Added categories
 	* Added validations
 	* Turned into Rails::Engine with controller (with CanCan support) and basic views
@@ -8,4 +12,4 @@
 
 ## v0.0.1
 
-* initial release
+* Initial release
