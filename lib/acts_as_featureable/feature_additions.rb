@@ -18,8 +18,8 @@ module ActsAsFeatureable
       def ensure_categories
         cats = ::ActsAsFeatureable::categories
         # Allow all categories if set to false
-      if cats && self.category && !cats.include?(self.category.to_sym)
-        errors.add(:category, " is not in the list [#{cats.join(',')}]")
+        if cats && self.category && !cats.include?(self.category.to_sym)
+          errors.add(:category, " is not in the list [#{cats.join(',')}]")
         end
       end
 
@@ -28,7 +28,7 @@ module ActsAsFeatureable
         errors.add(:base, %q{
           The feature limit of #{limit} has been reached. \
           Please delete or change an existing feature.
-        }) if ActsAsFeatureable.categories ? Feature.where(category: self.category).count >= limit : Feature.count >= limit
+          }) if ActsAsFeatureable.categories ? Feature.where(category: self.category).count >= limit : Feature.count >= limit
       end
 
       def assign_title
@@ -49,8 +49,8 @@ module ActsAsFeatureable
         # Will check for the attributes in ActsAsFeatureable.auto_summary_assign_list.
         unless self.summary
           ActsAsFeatureable.auto_summary_assign_list.each do |attr|
-              if featureable.respond_to?(attr)
-            self.summary = featureable.send(attr)
+            if featureable.respond_to?(attr)
+              self.summary = featureable.send(attr)
               break
             end
           end
@@ -76,13 +76,17 @@ module ActsAsFeatureable
         end
       end
 
-      def feature_model.method_missing(meth, *args, &block)
-        if ::ActsAsFeatureable.categories.include?(meth)
-          self.scope meth, -> { self.where(category: meth) }
-          self.send(meth)
+      def feature_model.method_missing(mehtod_name, *args, &block)
+        if ::ActsAsFeatureable.categories.include?(mehtod_name)
+          self.scope mehtod_name, -> { self.where(category: mehtod_name) }
+          self.send(mehtod_name)
         else
           super
         end
+      end
+
+      def respond_to_missing?(method_name, include_private = false)
+        ::ActsAsFeatureable.categories.include?(method_name) || super
       end
     end
   end
