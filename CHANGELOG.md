@@ -1,3 +1,11 @@
+## v0.0.5
+
+* Rakefile bugfix
+
+## v0.0.4
+
+* Updating to rails 4.0.0
+
 ## v0.0.3
 
 * Bug fix. Always use respond_to_missing? when using method_missing?
