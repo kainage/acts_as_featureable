@@ -17,5 +17,3 @@ test/version_tmp
 spec/dummy/log/*.log
 tmp
 .project
-spec/log/*.log
-/nbproject
