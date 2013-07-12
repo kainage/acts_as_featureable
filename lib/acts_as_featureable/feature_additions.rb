@@ -25,10 +25,9 @@ module ActsAsFeatureable
 
       def feature_limit_not_reached
         limit = ActsAsFeatureable.feature_limit
-        errors.add(:base, %q{
-          The feature limit of #{limit} has been reached. \
-          Please delete or change an existing feature.
-          }) if ActsAsFeatureable.categories ? Feature.where(category: self.category).count >= limit : Feature.count >= limit
+        errors.add(:base,
+          "The feature limit of #{limit} has been reached. Please delete or change an existing feature.") if
+          ActsAsFeatureable.categories ? Feature.where(category: self.category).count >= limit : Feature.count >= limit
       end
 
       def assign_title
