@@ -1,3 +1,7 @@
+## v0.0.6
+
+* Feature limit error message fix
+
 ## v0.0.5
 
 * Rakefile bugfix
